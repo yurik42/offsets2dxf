@@ -14,6 +14,13 @@
     source ~/.venvs/off2dxf/bin/activate
     pip3 install -r requirements.txt
 
+### Windows
+
+In Visual Studio Code
+
+    - Command Palette (Ctrl+Shift+P) 
+        -> environment -> venv -> select python -> [x] requirements
+
 
 ## REFERENCES
 
