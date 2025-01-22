@@ -16,21 +16,7 @@ class TableOfOffsets:
     """#      Sheer
 33       NaN
 32    1-10-2
-30     1-8-6
-28     1-7-7
-26     1-7-2
-24     1-7-0
-22     1-6-7
-20     1-7-1
-18     1-7-6
-16     1-8-5
-14     1-9-5
-12    1-11-0
-10     2-0-6
-8      2-2-5
-6      2-4-7
-4      2-7-2
-2     2-10-0
+...
 0      3-0-7
 Name: 0, dtype: object
 """
@@ -68,3 +54,17 @@ class Model:
         self._filename_csv = _filename_csv
         self._too = pandas.read_csv(self._filename_csv)
         pass
+
+    def units(self):
+        return "inch"
+
+    def station_positions(self):
+        """Return a list of station positions"""
+        station_positions = {}
+        for c in self._too.columns:
+            if c == "#":
+                pass
+            else:
+                assert c.isdecimal()
+                station_positions[c] = (33 - int(c)) * 12  # 1' == 12 " (inches)
+        return station_positions
