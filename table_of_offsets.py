@@ -70,16 +70,23 @@ class Model:
                 station_positions[c] = (33 - int(c)) * 12  # 1' == 12" (inches)
         return station_positions
 
-    def loft_sheer(self):
-        """return polyline to represent sheer line"""
-
-        sheer_offsets = self._too.loc[0]
+    def loft_line_n(self, n: int):
+        """return polyline for n-th line"""
+        line_offsets = self._too.loc[n]
         stations = self.station_positions()
 
-        sheer = list()
+        poly_line = list()
         for pos in stations:
-            offset = sheer_offsets[pos]
+            offset = line_offsets[pos]
             if type(offset) is str:
-                sheer.append((stations[pos], TableOfOffsets.offset2double(offset)))
+                poly_line.append((stations[pos], TableOfOffsets.offset2double(offset)))
 
-        return sheer
+        return poly_line
+
+    def loft_sheer(self):
+        """return polyline to represent sheer line"""
+        return self.loft_line_n(0)
+
+    def loft_b3(self):
+        """return polyline for B3"""
+        return self.loft_line_n(1)

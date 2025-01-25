@@ -43,8 +43,37 @@ class Test_TableOfOffsets(unittest.TestCase):
         self.assertIs(type(stations), dict)
         self.assertEqual(18, len(stations))
 
-        sheer = actual.loft_sheer()
-        print(sheer)
+        actual_sheer = actual.loft_sheer()
+        # print(sheer)
+        """
+        [
+            (12, 22.25), (36, 20.75), (60, 19.875), (84, 19.25), 
+            (108, 19.0), (132, 18.875), (156, 19.125), (180, 19.75), 
+            (204, 20.625), (228, 21.625), (252, 23.0), (276, 24.75), 
+            (300, 26.625), (324, 28.875), (348, 31.25), (372, 34.0), (396, 36.875)
+        ]"""
+        expected_sheer = [
+            (12, 22.25),
+            (36, 20.75),
+            (60, 19.875),
+            (84, 19.25),
+            (108, 19.0),
+            (132, 18.875),
+            (156, 19.125),
+            (180, 19.75),
+            (204, 20.625),
+            (228, 21.625),
+            (252, 23.0),
+            (276, 24.75),
+            (300, 26.625),
+            (324, 28.875),
+            (348, 31.25),
+            (372, 34.0),
+            (396, 36.875),
+        ]
+
+        self.assertEqual(17, len(actual_sheer))
+        self.assertEqual(expected_sheer, actual_sheer)
 
 
 if __name__ == "__main__":
