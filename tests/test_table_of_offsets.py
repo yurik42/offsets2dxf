@@ -43,6 +43,9 @@ class Test_TableOfOffsets(unittest.TestCase):
         self.assertIs(type(stations), dict)
         self.assertEqual(18, len(stations))
 
+        sheer = actual.loft_sheer()
+        print(sheer)
+
 
 if __name__ == "__main__":
     unittest.main()

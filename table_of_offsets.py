@@ -5,6 +5,7 @@
 import ezdxf
 import numpy
 import pandas
+import math
 
 __version__ = "0.5.0"
 
@@ -59,7 +60,7 @@ class Model:
         return "inch"
 
     def station_positions(self):
-        """Return a list of station positions"""
+        """Return a dictionary of station positions"""
         station_positions = {}
         for c in self._too.columns:
             if c == "#":
@@ -68,3 +69,17 @@ class Model:
                 assert c.isdecimal()
                 station_positions[c] = (33 - int(c)) * 12  # 1' == 12" (inches)
         return station_positions
+
+    def loft_sheer(self):
+        """return polyline to represent sheer line"""
+
+        sheer_offsets = self._too.loc[0]
+        stations = self.station_positions()
+
+        sheer = list()
+        for pos in stations:
+            offset = sheer_offsets[pos]
+            if type(offset) is str:
+                sheer.append((stations[pos], TableOfOffsets.offset2double(offset)))
+
+        return sheer
