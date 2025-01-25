@@ -66,5 +66,5 @@ class Model:
                 pass
             else:
                 assert c.isdecimal()
-                station_positions[c] = (33 - int(c)) * 12  # 1' == 12 " (inches)
+                station_positions[c] = (33 - int(c)) * 12  # 1' == 12" (inches)
         return station_positions
