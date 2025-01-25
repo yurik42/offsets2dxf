@@ -90,3 +90,16 @@ class Model:
     def loft_b3(self):
         """return polyline for B3"""
         return self.loft_line_n(1)
+
+
+class DXF:
+    def __init__(self, output_dxf: str):
+        self._output_dxf = output_dxf
+        self._doc = ezdxf.new("R2010")
+        self._msp = self._doc.modelspace()
+
+    def add_polyline(self, poly: list):
+        self._msp.add_polyline2d(poly)
+
+    def close(self):
+        self._doc.saveas(self._output_dxf)

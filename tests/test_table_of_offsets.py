@@ -75,6 +75,9 @@ class Test_TableOfOffsets(unittest.TestCase):
         self.assertEqual(17, len(actual_sheer))
         self.assertEqual(expected_sheer, actual_sheer)
 
+        actual_b3 = actual.loft_b3()
+        self.assertEqual(13, len(actual_b3))
+
 
 if __name__ == "__main__":
     unittest.main()
