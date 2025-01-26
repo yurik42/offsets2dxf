@@ -4,6 +4,7 @@
 
 import ezdxf
 import ezdxf.entities
+import ezdxf.enums
 import numpy
 import pandas
 import math
@@ -115,7 +116,8 @@ class Model:
 
     def plot_grid(self, dxf: object):
 
-        xx = self.station_positions().values()
+        stations = self.station_positions()
+        xx = stations.values()
 
         # Draw a "waterline"
         dxf.add_grid_polyline([(min(xx) - 12, 0), (max(xx) + 12, 0)])
@@ -127,6 +129,11 @@ class Model:
 
         for x in xx:
             dxf.add_grid_polyline([(x, bottom_y), (x, top_y)])
+
+        # place labels offset-ed by (1,1) from the waterline and
+        # the station vertical intersection
+        for s, x in stations.items():
+            dxf.text((x + 1, 1), s)
 
 
 class DXF:
@@ -147,6 +154,7 @@ class DXF:
         self._msp = self._doc.modelspace()
         self._doc.layers.add(name="grid", color=6)
         self._doc.layers.add(name="red", color=1)
+        self._doc.layers.add(name="text", color=3)
 
     def __enter__(self):
         # print("Enter with:", self._output_dxf)
@@ -160,6 +168,8 @@ class DXF:
         # print("exception_val:", exception_val)
 
         self.close()
+        if exception_val is not None:
+            raise Exception(str(exception_val))
 
         return True
 
@@ -177,3 +187,17 @@ class DXF:
             self._doc.saveas(self._output_dxf)
             self._doc = None
             self._msp = None
+
+    def text(self, xy: tuple, txt: str):
+        """Add text to the tet layer
+
+        # Using a predefined text style:
+        msp.add_text(
+            "Text Style Example: Liberation Serif",
+            height=0.35,
+            dxfattribs={"style": "LiberationSerif"}
+        ).set_placement((2, 6), align=TextEntityAlignment.LEFT)
+        """
+        self._msp.add_text(txt, height=1.0, dxfattribs={"layer": "text"}).set_placement(
+            xy, align=ezdxf.enums.TextEntityAlignment.LEFT
+        )

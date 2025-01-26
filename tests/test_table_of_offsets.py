@@ -114,7 +114,7 @@ class Test_TableOfOffsets(unittest.TestCase):
         # ASSERT: output file is created
         with table_of_offsets.DXF("test_DXF_2.dxf") as actual_dxf:
             self.assertIs(type(actual_dxf), table_of_offsets.DXF)
-            actual_dxf.add_grid_polyline((0, 0), (10, 10))
+            actual_dxf.add_grid_polyline([(0, 0), (10, 10)])
 
         self.assertTrue(os.path.exists("test_DXF_2.dxf"))
 
