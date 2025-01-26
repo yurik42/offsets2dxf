@@ -8,6 +8,9 @@ from context import table_of_offsets
 import os
 
 
+#
+# Model implementation spicific for the sample data
+#
 class Project89(table_of_offsets.Model):
     def __init__(self):
         super().__init__(
@@ -17,11 +20,17 @@ class Project89(table_of_offsets.Model):
         self.set_under_waterline(
             {
                 "B 3'": [
-                    "24", "22", "20", "18", "16", "14", "12", "10",
+                    "24", "22", "20", "18", "16", "14", "12",
+                ],
+                "B 2'": [
+                    "26", "24", "22", "20", "18", "16", "14", "12", "10", "8"
+                ],
+                "B 1'": [
+                    "28", "26", "24", "22", "20", "18", "16", "14", "12", "10", "8", "6"
                 ],
                 "Rabbet": [ 
                     "30", "28", "26", "24", "22", "20", "18",
-                    "16", "14", "12", "10",  "8",  "6",  "4",  "2",
+                    "16", "14", "12", "10",  "8",  "6",  "4",
                 ],
                 "Profile": [
                     "30", "28", "26", "24", "22", "20", "18",
@@ -38,9 +47,9 @@ class Project89(table_of_offsets.Model):
 
             dxf.add_red_polyline(self.loft_line_n(0))
             dxf.add_red_polyline(self.loft_line_n(1))
-            dxf.add_polyline(self.loft_line_n(2))
-            dxf.add_polyline(self.loft_line_n(3))
-            dxf.add_polyline(self.loft_line_n(4))
+            dxf.add_red_polyline(self.loft_line_n(2))
+            dxf.add_red_polyline(self.loft_line_n(3))
+            dxf.add_red_polyline(self.loft_line_n(4))
             #
             dxf.add_red_polyline(self.loft_line_n(6))
 
