@@ -78,6 +78,46 @@ class Test_TableOfOffsets(unittest.TestCase):
         actual_b3 = actual.loft_b3()
         self.assertEqual(13, len(actual_b3))
 
+    def test_DXF(self):
+        # clean up the workspace
+        if os.path.exists("test_DXF.dxf"):
+            os.remove("test_DXF.dxf")
+        self.assertFalse(os.path.exists("test_DXF.dxf"))
+
+        # Test:
+        # - create dxf object
+        # - close
+        # ASSERT: output file is created
+        actual_dxf = table_of_offsets.DXF("test_DXF.dxf")
+        actual_dxf.close()
+        self.assertTrue(os.path.exists("test_DXF.dxf"))
+
+        # - remove output
+        os.remove("test_DXF.dxf")
+        self.assertFalse(os.path.exists("test_DXF.dxf"))
+
+        # close the object
+        # ASSERT: output is not created
+        actual_dxf.close()
+        self.assertFalse(os.path.exists("test_DXF.dxf"))
+
+    def test_DXF_2(self):
+        """Test __exit__ method"""
+        # clean up the workspace
+        if os.path.exists("test_DXF_2.dxf"):
+            os.remove("test_DXF_2.dxf")
+        self.assertFalse(os.path.exists("test_DXF_2.dxf"))
+
+        # Test:
+        # - create dxf object
+        # - call __exit__
+        # ASSERT: output file is created
+        with table_of_offsets.DXF("test_DXF_2.dxf") as actual_dxf:
+            self.assertIs(type(actual_dxf), table_of_offsets.DXF)
+            actual_dxf.add_grid_polyline((0, 0), (10, 10))
+
+        self.assertTrue(os.path.exists("test_DXF_2.dxf"))
+
 
 if __name__ == "__main__":
     unittest.main()
