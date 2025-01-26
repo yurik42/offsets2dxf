@@ -3,6 +3,7 @@
 #
 
 import ezdxf
+import ezdxf.entities
 import numpy
 import pandas
 import math
@@ -91,15 +92,45 @@ class Model:
         """return polyline for B3"""
         return self.loft_line_n(1)
 
+    def plot_grid(self, dxf: object):
+        pass
+
 
 class DXF:
+    """
+    ACI colors
+    1: Red
+    2: Yellow
+    3: Green
+    4: Cyan
+    5: Blue
+    6: Magenta
+    7: White or black
+    """
+
     def __init__(self, output_dxf: str):
         self._output_dxf = output_dxf
         self._doc = ezdxf.new("R2010")
         self._msp = self._doc.modelspace()
+        self._doc.layers.add(name="grid", color=6)
+        self._doc.layers.add(name="red", color=1)
+
+    def __exit__(self, exception_type, exception_val, trace):
+        # Exit logic here, called at exit of with block
+        print(type(exception_type), type(exception_val), type(trace))
+        return True
 
     def add_polyline(self, poly: list):
         self._msp.add_polyline2d(poly)
 
+    def add_red_polyline(self, poly: list):
+        self._msp.add_polyline2d(poly, dxfattribs={"layer": "red"})
+
+    def add_grid_polyline(self, poly: list):
+        self._msp.add_polyline2d(poly, dxfattribs={"layer": "grid"})
+
     def close(self):
-        self._doc.saveas(self._output_dxf)
+        if self._doc is not None:
+            self._doc.saveas(self._output_dxf)
+            self._doc = None
+            self._msp = None
