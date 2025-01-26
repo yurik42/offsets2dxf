@@ -48,5 +48,6 @@ class Project89(table_of_offsets.Model):
 if __name__ == "__main__":
     proj = Project89()
     proj.save_model_as("test_project89.dxf")
+    print("Saved as:", os.path.abspath("test_project89.dxf"))
 
 # end of file
