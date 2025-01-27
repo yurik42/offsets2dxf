@@ -106,6 +106,14 @@ class Model:
 
         return poly_line
 
+    def loft_line_n_sorted(self, n: int):
+
+        def first(t: tuple):
+            return t[0]
+
+        poly = self.loft_line_n(n)
+        return sorted(poly, key=first)
+
     def loft_sheer(self):
         """return polyline to represent sheer line"""
         return self.loft_line_n(0)
