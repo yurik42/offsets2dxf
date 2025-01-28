@@ -47,13 +47,19 @@ class ProjectBlueMoon(table_of_offsets.Model):
                 station_positions[c] = (8 - int(c)) * 12 * 3  # 1' == 12" (inches)
         return station_positions
 
+    def base_offset(self, line_name: str):
+        """(virtual) Returns the vertical offset for the given line"""
+        if line_name in ["LWL to SHEER", "LWL to DECK EDG"]:
+            return 4 * 12 + 1 + 7.0 / 8.0  # 4-1-7
+        return 0
+
     def save_model_as(self, filename_dxf: str):
         with table_of_offsets.DXF(filename_dxf) as dxf:
             self.plot_grid(dxf)
 
             dxf.add_red_polyline(self.loft_line_n(0))
             dxf.add_red_polyline(self.loft_line_n(1))
-            # dxf.add_red_polyline(self.loft_line_n(2))
+            dxf.add_red_polyline(self.loft_line_n(2))
             # dxf.add_red_polyline(self.loft_line_n(3))
             # dxf.add_red_polyline(self.loft_line_n(4))
             #

@@ -89,6 +89,10 @@ class Model:
         under = self._under_waterline[line]
         return -1 if station in under else 1
 
+    def base_offset(self, line_name: str):
+        """(virtual) Returns the vertical offset for the given line"""
+        return 0
+
     def loft_line_n(self, n: int):
         """return polyline for n-th line"""
         line_offsets = self._too.loc[n]
@@ -100,8 +104,9 @@ class Model:
             offset = line_offsets[pos]
             if type(offset) is str:
                 s = self.offset_sign(pos, line_name)
+                off = self.base_offset(line_name)
                 poly_line.append(
-                    (stations[pos], s * TableOfOffsets.offset2double(offset))
+                    (stations[pos], s * TableOfOffsets.offset2double(offset) + off)
                 )
 
         return poly_line
