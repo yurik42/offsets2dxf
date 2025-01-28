@@ -42,7 +42,7 @@ class Project89(table_of_offsets.Model):
         pass
 
     def save_model_as(self, filename_dxf: str):
-        with table_of_offsets.DXF("test_model89.dxf") as dxf:
+        with table_of_offsets.DXF(filename_dxf) as dxf:
             self.plot_grid(dxf)
 
             dxf.add_red_polyline(self.loft_line_n(0))
