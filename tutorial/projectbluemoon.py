@@ -60,8 +60,14 @@ class ProjectBlueMoon(table_of_offsets.Model):
             dxf.add_red_polyline(self.loft_line_n(0))
             dxf.add_red_polyline(self.loft_line_n(1))
             dxf.add_red_polyline(self.loft_line_n(2))
-            # dxf.add_red_polyline(self.loft_line_n(3))
-            # dxf.add_red_polyline(self.loft_line_n(4))
+            dxf.add_red_polyline(self.loft_line_n(3))
+            dxf.add_red_polyline(self.loft_line_n(4))
+            dxf.add_red_polyline(self.loft_line_n(5))
+            dxf.add_red_polyline(self.loft_line_n(6))
+            dxf.add_red_polyline(self.loft_line_n(7))
+            dxf.add_red_polyline(self.loft_line_n(8))
+            #
+            # now half-bradth
             #
             # dxf.add_red_polyline(self.loft_line_n(6))
 
