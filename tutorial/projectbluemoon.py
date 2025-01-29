@@ -51,11 +51,35 @@ class ProjectBlueMoon(table_of_offsets.Model):
         """(virtual) Returns the vertical offset for the given line"""
         if line_name in ["LWL to SHEER", "LWL to DECK EDG"]:
             return 4 * 12 + 1 + 7.0 / 8.0  # 4-1-7
+
+        # the line_name is one of 'plane' lines
+        if line_name in [
+            "SHEER",
+            "WL 2A",
+            "WL 1A",
+            "LWL",
+            "WL 1B",
+            "WL 2B",
+            "RABBET",
+            "KEEL",
+            "BALLAST TOP",
+        ]:
+            return -10 * 12.0
+
         return 0
+
+    def plot_grid_more(self, dxf: object):
+        """Draw second line for plane views"""
+        stations = self.station_positions()
+        xx = stations.values()
+
+        # Draw a "waterline"
+        dxf.add_grid_polyline([(min(xx) - 12, -10 * 12.0), (max(xx) + 12, -10 * 12.0)])
 
     def save_model_as(self, filename_dxf: str):
         with table_of_offsets.DXF(filename_dxf) as dxf:
             self.plot_grid(dxf)
+            self.plot_grid_more(dxf)
 
             dxf.add_red_polyline(self.loft_line_n(0))
             dxf.add_red_polyline(self.loft_line_n(1))
@@ -69,7 +93,12 @@ class ProjectBlueMoon(table_of_offsets.Model):
             #
             # now half-bradth
             #
-            # dxf.add_red_polyline(self.loft_line_n(6))
+            dxf.add_red_polyline(self.loft_line_n(9))
+            dxf.add_red_polyline(self.loft_line_n(10))
+            dxf.add_red_polyline(self.loft_line_n(11))
+            dxf.add_red_polyline(self.loft_line_n(12))
+            dxf.add_red_polyline(self.loft_line_n(13))
+            dxf.add_red_polyline(self.loft_line_n(14))
 
 
 if __name__ == "__main__":
