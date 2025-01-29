@@ -68,6 +68,10 @@ class ProjectBlueMoon(table_of_offsets.Model):
 
         return 0
 
+    def grid_y_origins(self):
+        """(virtual) we want two horizontal (central) grid lines"""
+        return [0, -10 * 12.0]
+
     def plot_grid_more(self, dxf: object):
         """Draw second line for plane views"""
         stations = self.station_positions()
