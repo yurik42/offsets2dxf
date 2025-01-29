@@ -16,7 +16,7 @@ class ProjectBlueMoon(table_of_offsets.Model):
         super().__init__(
             os.path.join(
                 os.path.dirname(__file__),
-                "../sample_data/offset_table_blue_moon.local.csv",
+                "../sample_data_too/offset_table_blue_moon.csv",
             )
         )
         # fmt: off
