@@ -78,6 +78,10 @@ class Project89(table_of_offsets.Model):
             dxf.add_red_polyline(self.loft_line_n(4))
             #
             dxf.add_red_polyline(self.loft_line_n(6))
+            dxf.add_red_polyline(self.loft_line_n(7))
+            dxf.add_red_polyline(self.loft_line_n(8))
+            dxf.add_red_polyline(self.loft_line_n(9))
+            dxf.add_red_polyline(self.loft_line_n(10))
 
 
 if __name__ == "__main__":
