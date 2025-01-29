@@ -78,6 +78,10 @@ class Test_TableOfOffsets(unittest.TestCase):
         actual_b3 = actual.loft_b3()
         self.assertEqual(13, len(actual_b3))
 
+        actual_bottom, actual_top = actual.drawing_area_vertical_borders()
+        self.assertEqual(-120, actual_bottom)
+        self.assertEqual(120, actual_top)
+
     def test_DXF(self):
         # clean up the workspace
         if os.path.exists("test_DXF.dxf"):
