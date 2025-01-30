@@ -15,7 +15,7 @@ class Project181(table_of_offsets.Model):
     def __init__(self):
         super().__init__(
             os.path.join(
-                os.path.dirname(__file__), "../sample_data/offset_table_181.local.csv"
+                os.path.dirname(__file__), "../sample_data_too/offset_table_181.csv"
             )
         )
         # fmt: off
