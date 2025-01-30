@@ -76,13 +76,20 @@ class Model:
                 station_positions[c] = (33 - int(c)) * 12  # 1' == 12" (inches)
         return station_positions
 
-    def breadth_positions(self):
-        """(virtual) Return a dictionary"""
-        raise Exception("breadth_positions must be defined")
+    def buttocks_positions(self):
+        """(virtual) Return a dictionary
+        E.g.
+        {
+            "LWL" : 0,
+        }
+        """
+        print("TODO: please define buttocks_positions()")
+        return {}
 
-    def height_positions(self):
+    def waterlines_positions(self):
         """(virtual) Return a dictionary"""
-        raise Exception("height_positions must be defined")
+        print("TODO: please define waterline_positions()")
+        return {}
 
     def offset_sign(self, station: str, line: str):
         """Returns either 1 or -1
@@ -155,6 +162,13 @@ class Model:
             # the station vertical intersection
             for s, x in stations.items():
                 dxf.text((x + 1, y + 1), s)
+
+        # waterlines
+        for wl, wl_y in self.waterlines_positions().items():
+            print("Waterline: ", wl, "at", wl_y)
+            dxf.add_grid_polyline([(min(xx) - 12, wl_y), (max(xx) + 12, wl_y)])
+            dxf.text((min(xx) - 12 + 1, wl_y + 1), wl)
+            dxf.text((max(xx) + 12 - 1, wl_y + 1), wl)
 
     def drawing_area_vertical_borders(self):
         """(virtual) return (bottom, top)"""
