@@ -76,6 +76,14 @@ class Model:
                 station_positions[c] = (33 - int(c)) * 12  # 1' == 12" (inches)
         return station_positions
 
+    def breadth_positions(self):
+        """(virtual) Return a dictionary"""
+        raise Exception("breadth_positions must be defined")
+
+    def height_positions(self):
+        """(virtual) Return a dictionary"""
+        raise Exception("height_positions must be defined")
+
     def offset_sign(self, station: str, line: str):
         """Returns either 1 or -1
         The function is used if offsets are negative below waterline
@@ -155,6 +163,17 @@ class Model:
     def grid_y_origins(self):
         """(virtual) returns y-coordinate list of the horizontal lines in the grid"""
         return [0.0]
+
+    def loft_body_line(self: object, station: str, width: list, heights: list):
+        """return a polylie to represent a body line at the given station"""
+        poly = []
+
+        print("TODO: loft_body_line(...) is not implemented yet")
+
+        return poly
+
+        # the first point is expected on the sheer
+        poly = []
 
 
 class DXF:

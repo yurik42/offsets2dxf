@@ -85,6 +85,23 @@ class Project89(table_of_offsets.Model):
             dxf.add_red_polyline(self.loft_line_n(11))
             dxf.add_red_polyline(self.loft_line_n(12))
 
+            heights = ["Sheer", "B 3'", "B 2'", "B 1'", "Rabbet", "Profile"]
+            widths = [
+                "1/2w Deck",
+                "WL + 2'",
+                "WL + 1'",
+                'WL + 6"',
+                "LWL",
+                'WL - 6"',
+                "WL - 1'",
+                "WL - 2'",
+                "WL - 3'",
+                "WL - 4'",
+                "Rabbet Plan",
+                "Profile Plan",
+            ]
+            dxf.add_red_polyline(self.loft_body_line("18", widths, heights))
+
 
 if __name__ == "__main__":
     proj = Project89()
