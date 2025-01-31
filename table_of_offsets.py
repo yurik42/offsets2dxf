@@ -170,6 +170,17 @@ class Model:
             dxf.text((min(xx) - 12 + 1, wl_y + 1), wl)
             dxf.text((max(xx) + 12 - 1, wl_y + 1), wl)
 
+        # buttocks
+        buttocks_origin = 0
+        if len(self.grid_y_origins()) > 1:
+            buttocks_origin = self.grid_y_origins()[1]
+        for wl, wl_y in self.buttocks_positions().items():
+            print("Buttocks line: ", wl, "at", wl_y)
+            wl_y += buttocks_origin
+            dxf.add_grid_polyline([(min(xx) - 12, wl_y), (max(xx) + 12, wl_y)])
+            dxf.text((min(xx) - 12 + 1, wl_y + 1), wl)
+            dxf.text((max(xx) + 12 - 1, wl_y + 1), wl)
+
     def drawing_area_vertical_borders(self):
         """(virtual) return (bottom, top)"""
         return (-12 * 10, 12 * 10)
