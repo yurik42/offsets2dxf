@@ -41,6 +41,32 @@ class Project89(table_of_offsets.Model):
         # fmt: on
         pass
 
+    def base_offset(self, line_name: str):
+        if line_name in [
+            "1/2w Deck",
+            "WL + 2'",
+            "WL + 1'",
+            'WL + 6"',
+            "LWL",
+            'WL - 6"',
+            "WL - 1'",
+            "WL - 2'",
+            "WL - 3'",
+            "WL - 4'",
+            "Rabbet Plan",
+            "Profile Plan",
+        ]:
+            return 10 * 12.0  #
+        return 0
+
+    def drawing_area_vertical_borders(self):
+        """(virtual)"""
+        return (-12 * 10, 20 * 12)
+
+    def grid_y_origins(self):
+        """(virtual) we want two horizontal grid lines"""
+        return [0, 10 * 12.0]
+
     def save_model_as(self, filename_dxf: str):
         with table_of_offsets.DXF(filename_dxf) as dxf:
             self.plot_grid(dxf)
@@ -52,6 +78,12 @@ class Project89(table_of_offsets.Model):
             dxf.add_red_polyline(self.loft_line_n(4))
             #
             dxf.add_red_polyline(self.loft_line_n(6))
+            dxf.add_red_polyline(self.loft_line_n(7))
+            dxf.add_red_polyline(self.loft_line_n(8))
+            dxf.add_red_polyline(self.loft_line_n(9))
+            dxf.add_red_polyline(self.loft_line_n(10))
+            dxf.add_red_polyline(self.loft_line_n(11))
+            dxf.add_red_polyline(self.loft_line_n(12))
 
 
 if __name__ == "__main__":

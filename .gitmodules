@@ -1,0 +1,3 @@
+[submodule "sample_data_too"]
+	path = sample_data_too
+	url = git@github.com:yurik42/tables_of_offsets.git

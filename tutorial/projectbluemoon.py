@@ -16,7 +16,11 @@ class ProjectBlueMoon(table_of_offsets.Model):
         super().__init__(
             os.path.join(
                 os.path.dirname(__file__),
+<<<<<<< HEAD
                 "../sample_data/offset_table_blue_moon.local.csv",
+=======
+                "../sample_data_too/offset_table_blue_moon.csv",
+>>>>>>> origin/master
             )
         )
         # fmt: off
@@ -68,6 +72,13 @@ class ProjectBlueMoon(table_of_offsets.Model):
 
         return 0
 
+<<<<<<< HEAD
+=======
+    def grid_y_origins(self):
+        """(virtual) we want two horizontal (central) grid lines"""
+        return [0, -10 * 12.0]
+
+>>>>>>> origin/master
     def plot_grid_more(self, dxf: object):
         """Draw second line for plane views"""
         stations = self.station_positions()
@@ -91,7 +102,11 @@ class ProjectBlueMoon(table_of_offsets.Model):
             dxf.add_red_polyline(self.loft_line_n(7))
             dxf.add_red_polyline(self.loft_line_n(8))
             #
+<<<<<<< HEAD
             # now half-breadth
+=======
+            # now half-bradth
+>>>>>>> origin/master
             #
             dxf.add_red_polyline(self.loft_line_n(9))
             dxf.add_red_polyline(self.loft_line_n(10))

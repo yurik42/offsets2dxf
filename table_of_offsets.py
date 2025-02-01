@@ -132,21 +132,29 @@ class Model:
         stations = self.station_positions()
         xx = stations.values()
 
-        # Draw a "waterline"
-        dxf.add_grid_polyline([(min(xx) - 12, 0), (max(xx) + 12, 0)])
+        # Draw central line(s)
+        for y in self.grid_y_origins():
+            dxf.add_grid_polyline([(min(xx) - 12, y), (max(xx) + 12, y)])
 
         # draw station lines
-        # TODO: add function to compute bounding box
-        top_y = 12 * 10
-        bottom_y = -12 * 10
+        bottom_y, top_y = self.drawing_area_vertical_borders()
 
         for x in xx:
             dxf.add_grid_polyline([(x, bottom_y), (x, top_y)])
 
-        # place labels offset-ed by (1,1) from the waterline and
-        # the station vertical intersection
-        for s, x in stations.items():
-            dxf.text((x + 1, 1), s)
+        for y in self.grid_y_origins():
+            # place labels offset-ed by (1,1) from the waterline and
+            # the station vertical intersection
+            for s, x in stations.items():
+                dxf.text((x + 1, y + 1), s)
+
+    def drawing_area_vertical_borders(self):
+        """(virtual) return (bottom, top)"""
+        return (-12 * 10, 12 * 10)
+
+    def grid_y_origins(self):
+        """(virtual) returns y-coordinate list of the horizontal lines in the grid"""
+        return [0.0]
 
 
 class DXF:
