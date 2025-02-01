@@ -59,6 +59,22 @@ class Project89(table_of_offsets.Model):
             return 10 * 12.0  #
         return 0
 
+    def buttocks_positions(self):
+        return {"B 3'": 3 * 12.0, "B 2'": 2 * 12.0, "B 1'": 12 * 1.0}
+
+    def waterlines_positions(self):
+        return {
+            "WL + 2'": 2 * 12.0,
+            "WL + 1'": 12.0,
+            'WL + 6"': 6.0,
+            "LWL": 0.0,
+            'WL - 6"': -6.0,
+            "WL - 1'": -12.0,
+            "WL - 2'": -24.0,
+            "WL - 3'": -36.0,
+            "WL - 4'": -4 * 12,
+        }
+
     def drawing_area_vertical_borders(self):
         """(virtual)"""
         return (-12 * 10, 20 * 12)
@@ -84,6 +100,23 @@ class Project89(table_of_offsets.Model):
             dxf.add_red_polyline(self.loft_line_n(10))
             dxf.add_red_polyline(self.loft_line_n(11))
             dxf.add_red_polyline(self.loft_line_n(12))
+
+            heights = ["Sheer", "B 3'", "B 2'", "B 1'", "Rabbet", "Profile"]
+            widths = [
+                "1/2w Deck",
+                "WL + 2'",
+                "WL + 1'",
+                'WL + 6"',
+                "LWL",
+                'WL - 6"',
+                "WL - 1'",
+                "WL - 2'",
+                "WL - 3'",
+                "WL - 4'",
+                "Rabbet Plan",
+                "Profile Plan",
+            ]
+            dxf.add_red_polyline(self.loft_body_line("18", widths, heights))
 
 
 if __name__ == "__main__":
