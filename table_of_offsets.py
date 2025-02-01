@@ -76,6 +76,21 @@ class Model:
                 station_positions[c] = (33 - int(c)) * 12  # 1' == 12" (inches)
         return station_positions
 
+    def buttocks_positions(self):
+        """(virtual) Return a dictionary
+        E.g.
+        {
+            "LWL" : 0,
+        }
+        """
+        print("TODO: please define buttocks_positions()")
+        return {}
+
+    def waterlines_positions(self):
+        """(virtual) Return a dictionary"""
+        print("TODO: please define waterline_positions()")
+        return {}
+
     def offset_sign(self, station: str, line: str):
         """Returns either 1 or -1
         The function is used if offsets are negative below waterline
@@ -148,6 +163,24 @@ class Model:
             for s, x in stations.items():
                 dxf.text((x + 1, y + 1), s)
 
+        # waterlines
+        for wl, wl_y in self.waterlines_positions().items():
+            print("Waterline: ", wl, "at", wl_y)
+            dxf.add_grid_polyline([(min(xx) - 12, wl_y), (max(xx) + 12, wl_y)])
+            dxf.text((min(xx) - 12 + 1, wl_y + 1), wl)
+            dxf.text((max(xx) + 12 - 1, wl_y + 1), wl)
+
+        # buttocks
+        buttocks_origin = 0
+        if len(self.grid_y_origins()) > 1:
+            buttocks_origin = self.grid_y_origins()[1]
+        for wl, wl_y in self.buttocks_positions().items():
+            print("Buttocks line: ", wl, "at", wl_y)
+            wl_y += buttocks_origin
+            dxf.add_grid_polyline([(min(xx) - 12, wl_y), (max(xx) + 12, wl_y)])
+            dxf.text((min(xx) - 12 + 1, wl_y + 1), wl)
+            dxf.text((max(xx) + 12 - 1, wl_y + 1), wl)
+
     def drawing_area_vertical_borders(self):
         """(virtual) return (bottom, top)"""
         return (-12 * 10, 12 * 10)
@@ -155,6 +188,17 @@ class Model:
     def grid_y_origins(self):
         """(virtual) returns y-coordinate list of the horizontal lines in the grid"""
         return [0.0]
+
+    def loft_body_line(self: object, station: str, width: list, heights: list):
+        """return a polylie to represent a body line at the given station"""
+        poly = []
+
+        print("TODO: loft_body_line(...) is not implemented yet")
+
+        return poly
+
+        # the first point is expected on the sheer
+        poly = []
 
 
 class DXF:
