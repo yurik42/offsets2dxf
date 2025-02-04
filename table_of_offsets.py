@@ -51,6 +51,17 @@ Name: 0, dtype: object
             raise Exception("bad offset format")
         return d + delta
 
+    @staticmethod
+    def o2d(offset: any):
+        """Convert offset table entry to float"""
+        if type(offset) is str:
+            return TableOfOffsets.offset2double(offset)
+        if type(offset) is float:
+            return offset
+        if type(offset) is int:
+            return float(offset)
+        raise TypeError("Parameter must be string or float or int")
+
 
 class Model:
     def __init__(self: object, _filename_csv: str):
@@ -75,6 +86,17 @@ class Model:
                 assert c.isdecimal()
                 station_positions[c] = (33 - int(c)) * 12  # 1' == 12" (inches)
         return station_positions
+
+    def offsets_at(self, station: str):
+        """Return a dictionary of offsets at a specific station
+        E.g. { "#": "5", "Rabbet": 3-8-2, ...}
+        """
+
+        keys = list(self._too["#"])
+        vals = list(TableOfOffsets.o2d(o) for o in list(self._too[station]))
+
+        offsets = dict(zip(keys, vals))
+        return offsets
 
     def buttocks_positions(self):
         """(virtual) Return a dictionary

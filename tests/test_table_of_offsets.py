@@ -2,6 +2,7 @@ from context import table_of_offsets
 
 import unittest
 import os
+import math
 
 source_directory = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 
@@ -32,6 +33,14 @@ class Test_TableOfOffsets(unittest.TestCase):
             table_of_offsets.TableOfOffsets.offset2double("")
         with self.assertRaises(Exception):
             table_of_offsets.TableOfOffsets.offset2double("a-b-c")
+
+    def test_o2d(self):
+        self.assertEqual(1.0, table_of_offsets.TableOfOffsets.o2d("0-1-0"))
+        self.assertEqual(1.0, table_of_offsets.TableOfOffsets.o2d("0-1"))
+        self.assertEqual(12.0, table_of_offsets.TableOfOffsets.o2d("1-0"))
+
+        self.assertEqual(12.0, table_of_offsets.TableOfOffsets.o2d(12.0))
+        self.assertEqual(12.0, table_of_offsets.TableOfOffsets.o2d(12))
 
     def test_Model(self):
         actual = table_of_offsets.Model(
@@ -81,6 +90,43 @@ class Test_TableOfOffsets(unittest.TestCase):
         actual_bottom, actual_top = actual.drawing_area_vertical_borders()
         self.assertEqual(-120, actual_bottom)
         self.assertEqual(120, actual_top)
+
+    def test_Model_offset_at(self):
+        actual = table_of_offsets.Model(
+            os.path.join(source_directory, "sample_data/offset_table.csv")
+        )
+        self.assertIsNotNone(actual._too)
+
+        actual_offsets = actual.offsets_at("33")
+        self.assertEqual(21, len(actual_offsets))
+        # # make test data
+        # for k, v in actual_offsets.items():
+        #     if math.isnan(v):
+        #         print("self.assertTrue(math.isnan(actual_offsets[{}]))".format(repr(k)))
+        #     else:
+        #         print("self.assertEqual({}, actual_offsets[{}])".format(v, repr(k)))
+
+        self.assertTrue(math.isnan(actual_offsets["Sheer"]))
+        self.assertTrue(math.isnan(actual_offsets["B 3'"]))
+        self.assertEqual(15.75, actual_offsets["B 2'"])
+        self.assertEqual(12.375, actual_offsets["B 1'"])
+        self.assertEqual(9.75, actual_offsets["Rabbet"])
+        self.assertEqual(9.25, actual_offsets["Profile"])
+        self.assertEqual(28.5, actual_offsets["1/2w Deck"])
+        self.assertTrue(math.isnan(actual_offsets["WL + 2'"]))
+        self.assertTrue(math.isnan(actual_offsets["WL + 1'"]))
+        self.assertTrue(math.isnan(actual_offsets['WL + 6"']))
+        self.assertTrue(math.isnan(actual_offsets["LWL"]))
+        self.assertTrue(math.isnan(actual_offsets['WL - 6"']))
+        self.assertTrue(math.isnan(actual_offsets["WL - 1'"]))
+        self.assertTrue(math.isnan(actual_offsets["WL - 2'"]))
+        self.assertTrue(math.isnan(actual_offsets["WL - 3'"]))
+        self.assertTrue(math.isnan(actual_offsets["WL - 4'"]))
+        self.assertTrue(math.isnan(actual_offsets["Rabbet Plan"]))
+        self.assertTrue(math.isnan(actual_offsets["Profile Plan"]))
+        self.assertTrue(math.isnan(actual_offsets["Diagonal 1"]))
+        self.assertTrue(math.isnan(actual_offsets["D 2"]))
+        self.assertTrue(math.isnan(actual_offsets["D 3"]))
 
     def test_DXF(self):
         # clean up the workspace
