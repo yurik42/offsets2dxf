@@ -9,7 +9,7 @@ import os
 
 
 #
-# Model implementation spicific for the sample data
+# A model implementation which is specific for the sample data
 #
 class ProjectBlueMoon(table_of_offsets.Model):
     def __init__(self):
