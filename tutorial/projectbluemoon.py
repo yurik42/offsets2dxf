@@ -25,6 +25,9 @@ class ProjectBlueMoon(table_of_offsets.Model):
             }
         )
         # fmt: on
+        self._y_lwl = 4 * 12 + 1 + 7.0 / 8.0  # 4-1-7
+        self._y0 = 0.0
+        self._y1 = -120.0
         pass
 
     def station_positions(self):
@@ -50,7 +53,7 @@ class ProjectBlueMoon(table_of_offsets.Model):
     def base_offset(self, line_name: str):
         """(virtual) Returns the vertical offset for the given line"""
         if line_name in ["LWL to SHEER", "LWL to DECK EDG"]:
-            return 4 * 12 + 1 + 7.0 / 8.0  # 4-1-7
+            return self._y_lwl
 
         # the line_name is one of 'plane' lines
         if line_name in [
@@ -64,7 +67,7 @@ class ProjectBlueMoon(table_of_offsets.Model):
             "KEEL",
             "BALLAST TOP",
         ]:
-            return -10 * 12.0
+            return self._y1
 
         return 0
 
@@ -72,18 +75,28 @@ class ProjectBlueMoon(table_of_offsets.Model):
         """(virtual) we want two horizontal (central) grid lines"""
         return [0, -10 * 12.0]
 
-    def plot_grid_more(self, dxf: object):
-        """Draw second line for plane views"""
-        stations = self.station_positions()
-        xx = stations.values()
+    def waterlines_positions(self):
+        wl = {
+            "WL 2A": 18.0,
+            "WL 1A": 9.0,
+            "LWL": 0.0,
+            "WL 1B": -9.0,
+            "WL 2B": -18.0,
+        }
+        for k in wl:
+            wl[k] += self._y_lwl
+        return wl
 
-        # Draw a "waterline"
-        dxf.add_grid_polyline([(min(xx) - 12, -10 * 12.0), (max(xx) + 12, -10 * 12.0)])
+    def buttocks_positions(self):
+        return {"BASE TO B-3": 36.0, "BASE TO B-2": 24.0, "BASE TO B-1": 12.0}
+
+    def grid_y_origins(self):
+        """(virtual): central lines will be drawn here"""
+        return [self._y0, self._y1]
 
     def save_model_as(self, filename_dxf: str):
         with table_of_offsets.DXF(filename_dxf) as dxf:
             self.plot_grid(dxf)
-            self.plot_grid_more(dxf)
 
             dxf.add_red_polyline(self.loft_line_n(0))
             dxf.add_red_polyline(self.loft_line_n(1))

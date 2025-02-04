@@ -15,7 +15,7 @@ class Project181(table_of_offsets.Model):
     def __init__(self):
         super().__init__(
             os.path.join(
-                os.path.dirname(__file__), "../sample_data/offset_table_181.local.csv"
+                os.path.dirname(__file__), "../sample_data_too/offset_table_181.csv"
             )
         )
         # fmt: off
@@ -29,6 +29,8 @@ class Project181(table_of_offsets.Model):
             }
         )
         # fmt: on
+        self._y0 = 0.0
+        self._y1 = -100.0
         pass
 
     def station_positions(self):
@@ -46,8 +48,42 @@ class Project181(table_of_offsets.Model):
                 station_positions[c] = (9 - int(c)) * 24  # 1' == 12" (inches)
         return station_positions
 
+    def waterlines_positions(self):
+        return {
+            '24" LL': 24.0,
+            '16" LL': 16.0,
+            '8" LL': 8.0,
+            "DWL": 0.0,
+            '8" DL': -8,
+            '16" DL': -16.0,
+        }
+
+    def buttocks_positions(self):
+        return {
+            '36" Buttock': 36.0,
+            '24" Buttock': 24.0,
+            '12" Buttock': 12.0,
+        }
+
+    def base_offset(self, line_name):
+        if line_name in [
+            "Sheerline",
+            '24" LL',
+            '16" LL',
+            '8" LL',
+            "DWL",
+            '8" DL',
+            '16" DL',
+            "Rabbet Line",
+        ]:
+            return self._y1
+        return self._y0
+
+    def grid_y_origins(self):
+        return [self._y0, self._y1]
+
     def save_model_as(self, filename_dxf: str):
-        with table_of_offsets.DXF("test_model181.dxf") as dxf:
+        with table_of_offsets.DXF("test_project181.dxf") as dxf:
             self.plot_grid(dxf)
 
             dxf.add_red_polyline(self.loft_line_n_sorted(0))
