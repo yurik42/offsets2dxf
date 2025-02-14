@@ -9,7 +9,7 @@ import os
 
 
 #
-# Model implementation spicific for the sample data
+# Model implementation specific for the sample data
 #
 class Project89(table_of_offsets.Model):
     def __init__(self):
@@ -116,7 +116,22 @@ class Project89(table_of_offsets.Model):
                 "Rabbet Plan",
                 "Profile Plan",
             ]
-            dxf.add_red_polyline(self.loft_body_line("18", widths, heights))
+
+            offsets = [
+                ("1/2w Deck", "Sheer"),
+                "WL + 2'",
+                "WL + 1'",
+                'WL + 6"',
+                "LWL",
+                'WL - 6"',
+                "WL - 1'",
+                "WL - 2'",
+                "WL - 3'",
+                "WL - 4'",
+                ("Rabbet Plan", "Rabbet"),
+                ("Profile", "Profile Plan"),
+            ]
+            dxf.add_red_polyline(self.loft_body_line("18", offsets))
 
 
 if __name__ == "__main__":

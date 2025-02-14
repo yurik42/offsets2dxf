@@ -211,16 +211,23 @@ class Model:
         """(virtual) returns y-coordinate list of the horizontal lines in the grid"""
         return [0.0]
 
-    def loft_body_line(self: object, station: str, width: list, heights: list):
-        """return a polylie to represent a body line at the given station"""
+    def loft_body_line(self: object, station: str, offsets: list):
+        """return a polyline to represent a body line at the given station
+
+        Example:
+            model.loft_body_line("22", [("sheer", "sheer"), ...])
+        """
         poly = []
 
-        print("TODO: loft_body_line(...) is not implemented yet")
+        for off in offsets:
+            if type(off) is tuple:
+                pass
+            elif type(off) is str:
+                pass
+            else:
+                raise TypeError("offsets are tuples or strings")
 
         return poly
-
-        # the first point is expected on the sheer
-        poly = []
 
 
 class DXF:
